@@ -1,0 +1,489 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="Shop premium organic dry fruits and nuts in Wakad, Pune. Select Almonds, Cashews, Raisins, Pistachios, Dates, Turkish Figs, and luxury gift boxes. Custom weight options and WhatsApp inquiry.">
+  <meta name="keywords" content="Dry Fruits Shop in Wakad, Premium Dry Fruits Pune, Organic Dry Fruits in Pune, Dry Fruits Gift Boxes Pune">
+  <title>Products | W-Biz Dry Fruits - Luxury Organic Nuts & Gift Boxes</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Premium Custom Styling Sheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="light-page">
+
+  <!-- Preloader Screen -->
+  <div id="preloader">
+    <div class="loader-container">
+      <div class="loader-logo">W-BIZ</div>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-info">
+        <span><i class="fa-solid fa-phone"></i> +91 99999 99999</span>
+        <span><i class="fa-solid fa-location-dot"></i> Wakad, Pune</span>
+      </div>
+      <div class="top-promo">
+        <i class="fa-solid fa-truck-fast gold-text"></i> Free Doorstep Delivery in Wakad for orders above ₹1,500!
+      </div>
+      <div class="top-socials">
+        <a href="https://instagram.com/wbizdryfruits" target="_blank" aria-label="Follow W-Biz Dry Fruits on Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://facebook.com/wbizdryfruits" target="_blank" aria-label="Follow W-Biz Dry Fruits on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Premium Navigation Header -->
+  <header>
+    <div class="container header-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/logo.png" alt="W-Biz Dry Fruits Logo" class="logo-img">
+        <span class="logo-text">W-BIZ DRY FRUITS</span>
+      </a>
+      
+      <nav class="nav-links" id="menu-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="products.html" class="active">Products</a>
+        <a href="gallery.html">Gallery</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      
+      <div class="nav-cta">
+        <a href="products.html" class="btn btn-outline">
+          <i class="fa-solid fa-basket-shopping"></i> Shop Now
+        </a>
+      </div>
+      
+      <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Products Hero Section -->
+  <section class="about-hero" style="background: linear-gradient(rgba(30, 18, 12, 0.85), rgba(30, 18, 12, 0.95)), url('assets/hero-bg.png') no-repeat center center/cover;">
+    <div class="container">
+      <h1>Our Luxury Gourmet Catalog</h1>
+    </div>
+  </section>
+
+  <!-- Products Grid and Filters -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-header reveal">
+        <span>Gourmet Selection</span>
+        <h2>Explore Premium Dry Fruits & Nuts</h2>
+        <p>Filter by category, select your preferred weight option, and immediately inquire or order via WhatsApp.</p>
+      </div>
+
+      <!-- Category Filter Tabs -->
+      <div class="filter-tabs reveal" id="category-filter-tabs">
+        <button class="filter-btn active" data-filter="all">All Selections</button>
+        <button class="filter-btn" data-filter="almonds">Almonds</button>
+        <button class="filter-btn" data-filter="cashews">Cashews</button>
+        <button class="filter-btn" data-filter="pistachios">Pistachios</button>
+        <button class="filter-btn" data-filter="walnuts">Walnuts</button>
+        <button class="filter-btn" data-filter="raisins">Raisins</button>
+        <button class="filter-btn" data-filter="dates">Dates</button>
+        <button class="filter-btn" data-filter="figs">Figs</button>
+        <button class="filter-btn" data-filter="mixed">Mixed Nuts</button>
+        <button class="filter-btn" data-filter="gift-boxes">Gift Boxes</button>
+      </div>
+
+      <!-- Products Grid -->
+      <div class="products-grid reveal" id="products-catalog-grid">
+        
+        <!-- Product 1: Almonds -->
+        <div class="product-card product-item" data-category="almonds">
+          <div class="product-img-wrap">
+            <span class="product-badge">Premium</span>
+            <img src="assets/products/almonds.png" alt="California Almonds W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">California Almonds</h3>
+            <p class="product-desc">Giant, crispy California almonds rich in essential brain-health vitamin E, dietary fibers, and natural organic oils.</p>
+            
+            <label for="weight-select-1" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-1" data-product="California Almonds">
+              <option value="250g" data-price="280" selected>250g - ₹280</option>
+              <option value="500g" data-price="540">500g - ₹540</option>
+              <option value="1kg" data-price="1050">1kg - ₹1,050</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">280</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20California%20Almonds%20(250g)%20priced%20at%20₹280." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 2: Cashews -->
+        <div class="product-card product-item" data-category="cashews">
+          <div class="product-img-wrap">
+            <span class="product-badge">Jumbo</span>
+            <img src="assets/products/cashews.png" alt="Jumbo Roasted Cashews W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Jumbo Roasted Cashews</h3>
+            <p class="product-desc">Flawless, buttery W240 cashew nuts golden roasted to locked-in crunchiness, rich in proteins and magnesium.</p>
+            
+            <label for="weight-select-2" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-2" data-product="Jumbo Roasted Cashews">
+              <option value="250g" data-price="320" selected>250g - ₹320</option>
+              <option value="500g" data-price="620">500g - ₹620</option>
+              <option value="1kg" data-price="1200">1kg - ₹1,200</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">320</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Jumbo%20Roasted%20Cashews%20(250g)%20priced%20at%20₹320." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 3: Pistachios -->
+        <div class="product-card product-item" data-category="pistachios">
+          <div class="product-img-wrap">
+            <span class="product-badge">Salted</span>
+            <img src="assets/products/pistachios.png" alt="Irani Salted Pistachios W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Roasted Salted Pistachios</h3>
+            <p class="product-desc">Premium cracked-shell pistachios with vibrant green kernels, roasted and lightly salted for an incredible energy snack.</p>
+            
+            <label for="weight-select-3" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-3" data-product="Roasted Salted Pistachios">
+              <option value="250g" data-price="350" selected>250g - ₹350</option>
+              <option value="500g" data-price="680">500g - ₹680</option>
+              <option value="1kg" data-price="1300">1kg - ₹1,300</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">350</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Roasted%20Salted%20Pistachios%20(250g)%20priced%20at%20₹350." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 4: Walnuts -->
+        <div class="product-card product-item" data-category="walnuts">
+          <div class="product-img-wrap">
+            <span class="product-badge"> Chilean</span>
+            <img src="assets/products/walnuts.png" alt=" Chilean Walnuts W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title"> chilean Walnuts</h3>
+            <p class="product-desc">Premium vacuum-packed light halves walnuts. High in plant-based Omega-3 fatty acids for heart and cognitive strength.</p>
+            
+            <label for="weight-select-4" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-4" data-product=" Chilean Walnuts">
+              <option value="250g" data-price="380" selected>250g - ₹380</option>
+              <option value="500g" data-price="740">500g - ₹740</option>
+              <option value="1kg" data-price="1450">1kg - ₹1,450</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">380</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20 Chilean%20Walnuts%20(250g)%20priced%20at%20₹380." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 5: Raisins -->
+        <div class="product-card product-item" data-category="raisins">
+          <div class="product-img-wrap">
+            <span class="product-badge">Organic</span>
+            <img src="assets/products/raisins.png" alt="Golden and Black Raisins W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Golden & Black Raisins</h3>
+            <p class="product-desc">Juicy, premium sun-dried kishmish grapes, packed with rich dietary iron, antioxidants, and pure sweet flavor.</p>
+            
+            <label for="weight-select-5" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-5" data-product="Golden %26 Black Raisins">
+              <option value="250g" data-price="180" selected>250g - ₹180</option>
+              <option value="500g" data-price="340">500g - ₹340</option>
+              <option value="1kg" data-price="650">1kg - ₹650</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">180</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Golden%20%26%20Black%20Raisins%20(250g)%20priced%20at%20₹180." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 6: Dates -->
+        <div class="product-card product-item" data-category="dates">
+          <div class="product-img-wrap">
+            <span class="product-badge">Medjool</span>
+            <img src="assets/products/dates.png" alt="Medjool Dates W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Royal Medjool Dates</h3>
+            <p class="product-desc">Luscious, king-sized organic dates directly imported from international groves. High natural energy source.</p>
+            
+            <label for="weight-select-6" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-6" data-product="Royal Medjool Dates">
+              <option value="250g" data-price="450" selected>250g - ₹450</option>
+              <option value="500g" data-price="880">500g - ₹880</option>
+              <option value="1kg" data-price="1700">1kg - ₹1,700</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">450</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Royal%20Medjool%20Dates%20(250g)%20priced%20at%20₹450." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 7: Figs -->
+        <div class="product-card product-item" data-category="figs">
+          <div class="product-img-wrap">
+            <span class="product-badge">Turkish</span>
+            <img src="assets/products/figs.png" alt="Turkish dried figs W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Turkish Dried Figs</h3>
+            <p class="product-desc">Fleshy, soft Turkish anjeer sun-dried with traditional methods. Rich in natural dietary fiber and calcium.</p>
+            
+            <label for="weight-select-7" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-7" data-product="Turkish Dried Figs">
+              <option value="250g" data-price="420" selected>250g - ₹420</option>
+              <option value="500g" data-price="820">500g - ₹820</option>
+              <option value="1kg" data-price="1600">1kg - ₹1,600</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">420</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Turkish%20Dried%20Figs%20(250g)%20priced%20at%20₹420." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 8: Mixed -->
+        <div class="product-card product-item" data-category="mixed">
+          <div class="product-img-wrap">
+            <span class="product-badge">Health Mix</span>
+            <img src="assets/products/mixed.png" alt="Gourmet Nut and Berry Mix W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Gourmet Nut & Berry Mix</h3>
+            <p class="product-desc">A premium energetic assortment featuring whole almonds, raw cashews, sweet raisins, and organic seed blends.</p>
+            
+            <label for="weight-select-8" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-8" data-product="Gourmet Nut %26 Berry Mix">
+              <option value="250g" data-price="400" selected>250g - ₹400</option>
+              <option value="500g" data-price="780">500g - ₹780</option>
+              <option value="1kg" data-price="1500">1kg - ₹1,500</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">400</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20Gourmet%20Nut%20%26%20Berry%20Mix%20(250g)%20priced%20at%20₹400." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+        <!-- Product 9: Gift Boxes -->
+        <div class="product-card product-item" data-category="gift-boxes">
+          <div class="product-img-wrap">
+            <span class="product-badge">Gift Pack</span>
+            <img src="assets/store-packaging.png" alt="Luxury Utsav Wood Gift Box W-Biz Wakad Pune">
+          </div>
+          <div class="product-info">
+            <h3 class="product-title">Luxury Utsav Box</h3>
+            <p class="product-desc">Stunning handcrafted wooden box, velvet lined, containing divided grids of premium almonds, walnuts, and cashews.</p>
+            
+            <label for="weight-select-9" style="display:none">Select Weight</label>
+            <select class="weight-selector" id="weight-select-9" data-product="Luxury Utsav Box">
+              <option value="1 Box" data-price="1999" selected>Standard Box - ₹1,999</option>
+            </select>
+            
+            <div class="product-price-row">
+              <span class="product-price">₹<span class="price-val">1999</span></span>
+            </div>
+            
+            <div class="product-actions">
+              <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20interested%20in%20inquiring%20about%20the%20Luxury%20Utsav%20Box%20(1%20Box)%20priced%20at%20₹1999." target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+                <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+              </a>
+            </div>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom Request forms for Corporate / Festive Box customizations -->
+  <section class="section-padding" style="background-color: var(--bg-cream-dark);">
+    <div class="container">
+      <div class="section-header reveal text-center">
+        <span>Custom Gift Packs & Wholesale</span>
+        <h2>Corporate & Wedding Gift Inquiries</h2>
+        <p>Need customized boxes with brand engravings? Fill in our quick form and our Wakad concierge team will reach back within 2 hours.</p>
+      </div>
+
+      <div class="contact-form-panel reveal" style="max-width: 800px; margin: 0 auto;">
+        <form id="product-inquiry-form">
+          <div class="form-grid">
+            <div class="form-group">
+              <label for="inq-name">Your Full Name</label>
+              <input type="text" id="inq-name" class="form-control" required placeholder="e.g. Rahul Sharma">
+            </div>
+            
+            <div class="form-group">
+              <label for="inq-phone">Contact Number</label>
+              <input type="tel" id="inq-phone" class="form-control" required placeholder="e.g. +91 99999 99999">
+            </div>
+            
+            <div class="form-group">
+              <label for="inq-type">Inquiry Type</label>
+              <select id="inq-type" class="form-control">
+                <option value="corporate">Corporate Festive Gifting</option>
+                <option value="wedding">Wedding / Ceremony Hampers</option>
+                <option value="bulk">Bulk Wholesale Order (10kg+)</option>
+                <option value="custom">Other Customization</option>
+              </select>
+            </div>
+            
+            <div class="form-group">
+              <label for="inq-quantity">Expected Quantity (Units / kg)</label>
+              <input type="number" id="inq-quantity" class="form-control" required placeholder="e.g. 50" min="1">
+            </div>
+            
+            <div class="form-group-full form-group">
+              <label for="inq-msg">Specify Customization Requirements</label>
+              <textarea id="inq-msg" class="form-control" placeholder="Specify preference of dry fruits, custom box engraving ideas, or deadline dates..."></textarea>
+            </div>
+            
+            <div class="form-group-full text-center" style="margin-top: 15px;">
+              <button type="submit" class="btn btn-gold" style="min-width: 250px;">
+                <i class="fa-solid fa-paper-plane"></i> Submit Inquiry Request
+              </button>
+            </div>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- Luxury Footer -->
+  <footer>
+    <div class="container footer-top">
+      <div class="footer-col footer-about">
+        <div class="logo-link">
+          <img src="assets/logo.png" alt="W-Biz Dry Fruits Logo" class="logo-img">
+          <span class="logo-text">W-BIZ</span>
+        </div>
+        <p>Bringing luxurious, wholesome health from global farms to Wakad, Pune. Sourced with absolute purity, packed with hygiene, and styled for premium celebrations.</p>
+        <div class="top-socials" style="margin-top: 10px;">
+          <a href="https://instagram.com/wbizdryfruits" target="_blank" style="margin-left: 0; margin-right: 15px;"><i class="fa-brands fa-instagram fa-lg"></i></a>
+          <a href="https://facebook.com/wbizdryfruits" target="_blank" style="margin-right: 15px;"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Categories</h3>
+        <ul class="footer-links-list">
+          <li><a href="products.html?category=almonds">California Almonds</a></li>
+          <li><a href="products.html?category=cashews">Jumbo Cashews</a></li>
+          <li><a href="products.html?category=pistachios">Salted Pistachios</a></li>
+          <li><a href="products.html?category=figs">Turkish Figs</a></li>
+          <li><a href="products.html?category=gift-boxes">Festive Gift Boxes</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col footer-newsletter">
+        <h3>Newsletter</h3>
+        <p>Subscribe to receive custom premium recipes, festive discounts, and quality organic dry fruit alerts directly.</p>
+        <form class="newsletter-form" id="footer-newsletter-form">
+          <input type="email" placeholder="Your Email Address" class="newsletter-input" required aria-label="Email for newsletter subscription">
+          <button type="submit" class="newsletter-btn" aria-label="Subscribe to newsletter"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 W-Biz Dry Fruits. All Rights Reserved. Sourced Globally, Served Purely.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Widget Button -->
+  <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20visiting%20your%20products%20catalog%20and%20would%20like%20to%20learn%20more." class="whatsapp-float" target="_blank" aria-label="Chat with W-Biz Dry Fruits on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Global Custom Javascript Sheet -->
+  <script src="js/main.js"></script>
+</body>
+</html>

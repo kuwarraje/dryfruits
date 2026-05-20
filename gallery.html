@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="description" content="View W-Biz Dry Fruits premium store interior, handpicked organic nuts, vacuum packaging, and elegant festive gift boxes in Wakad, Pune.">
+  <meta name="keywords" content="Dry Fruits Shop in Wakad, Premium Dry Fruits Pune, Dry Fruits Gift Boxes Pune">
+  <title>Gallery | W-Biz Dry Fruits - Luxury Store & Packaging Photos</title>
+  
+  <!-- Favicon -->
+  <link rel="icon" type="image/png" href="assets/logo.png">
+  
+  <!-- FontAwesome Icons CDN -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  
+  <!-- Premium Custom Styling Sheet -->
+  <link rel="stylesheet" href="css/style.css">
+</head>
+<body class="light-page">
+
+  <!-- Preloader Screen -->
+  <div id="preloader">
+    <div class="loader-container">
+      <div class="loader-logo">W-BIZ</div>
+      <div class="loader-spinner"></div>
+    </div>
+  </div>
+
+  <!-- Top Announcement Bar -->
+  <div class="top-bar">
+    <div class="container top-bar-content">
+      <div class="top-info">
+        <span><i class="fa-solid fa-phone"></i> +91 99999 99999</span>
+        <span><i class="fa-solid fa-location-dot"></i> Wakad, Pune</span>
+      </div>
+      <div class="top-promo">
+        <i class="fa-solid fa-camera gold-text"></i> Take a virtual tour of our flagship boutique in Wakad!
+      </div>
+      <div class="top-socials">
+        <a href="https://instagram.com/wbizdryfruits" target="_blank" aria-label="Follow W-Biz Dry Fruits on Instagram"><i class="fa-brands fa-instagram"></i></a>
+        <a href="https://facebook.com/wbizdryfruits" target="_blank" aria-label="Follow W-Biz Dry Fruits on Facebook"><i class="fa-brands fa-facebook-f"></i></a>
+      </div>
+    </div>
+  </div>
+
+  <!-- Sticky Premium Navigation Header -->
+  <header>
+    <div class="container header-container">
+      <a href="index.html" class="logo-link">
+        <img src="assets/logo.png" alt="W-Biz Dry Fruits Logo" class="logo-img">
+        <span class="logo-text">W-BIZ DRY FRUITS</span>
+      </a>
+      
+      <nav class="nav-links" id="menu-links">
+        <a href="index.html">Home</a>
+        <a href="about.html">About Us</a>
+        <a href="products.html">Products</a>
+        <a href="gallery.html" class="active">Gallery</a>
+        <a href="contact.html">Contact Us</a>
+      </nav>
+      
+      <div class="nav-cta">
+        <a href="products.html" class="btn btn-outline">
+          <i class="fa-solid fa-basket-shopping"></i> Shop Now
+        </a>
+      </div>
+      
+      <button class="hamburger" id="menu-toggle" aria-label="Toggle navigation menu">
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </div>
+  </header>
+
+  <!-- Gallery Hero Banner -->
+  <section class="about-hero" style="background: linear-gradient(rgba(30, 18, 12, 0.85), rgba(30, 18, 12, 0.95)), url('assets/store-interior.png') no-repeat center center/cover;">
+    <div class="container">
+      <h1>Our Boutique & Assortment Gallery</h1>
+    </div>
+  </section>
+
+  <!-- Gallery Grid and Interactive Lightbox -->
+  <section class="section-padding">
+    <div class="container">
+      <div class="section-header reveal">
+        <span>Visual Splendor</span>
+        <h2>W-Biz Gallery Experience</h2>
+        <p>Click on any photo to open our premium fullscreen lightbox. Filter through store interiors, raw organic nuts, and festive boxes.</p>
+      </div>
+
+      <!-- Filter Tabs -->
+      <div class="filter-tabs reveal" id="gallery-filter-tabs">
+        <button class="filter-btn active" data-filter="all">All Photos</button>
+        <button class="filter-btn" data-filter="products">Gourmet Products</button>
+        <button class="filter-btn" data-filter="interior">Store Interior</button>
+        <button class="filter-btn" data-filter="packaging">Premium Packaging</button>
+      </div>
+
+      <!-- Gallery Grid -->
+      <div class="gallery-grid reveal" id="gallery-image-grid">
+        
+        <!-- Photo 1: Interior -->
+        <div class="gallery-card gallery-item" data-category="interior" data-src="assets/store-interior.png" data-caption="Luxury flagship boutique in Wakad, Pune featuring premium wood shelving and clean warm lighting.">
+          <img src="assets/store-interior.png" alt="W-Biz Dry Fruits Wakad Store Interior">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Luxury Boutique</h3>
+            <p>Store Interior</p>
+          </div>
+        </div>
+
+        <!-- Photo 2: Packaging -->
+        <div class="gallery-card gallery-item" data-category="packaging" data-src="assets/store-packaging.png" data-caption="Luxury festive wooden gift box packed with raw walnuts, cashews, and almonds finished with gold ribbons.">
+          <img src="assets/store-packaging.png" alt="Luxury dry fruits wooden gift box packaging at W-Biz Pune">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Utsav Gift Box</h3>
+            <p>Festive Packaging</p>
+          </div>
+        </div>
+
+        <!-- Photo 3: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/products/almonds.png" data-caption="Sun-dried jumbo California almonds in a rustic presentation bowl.">
+          <img src="assets/products/almonds.png" alt="California Almonds in a premium bowl at W-Biz Dry Fruits Wakad">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>California Almonds</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 4: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/products/cashews.png" data-caption="Jumbo size cashew nuts roasted to perfection in a designer metallic dish.">
+          <img src="assets/products/cashews.png" alt="Premium W240 Roasted Cashews W-Biz Wakad">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Jumbo Cashews</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 5: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/products/pistachios.png" data-caption="Crunchy green salted pistachios sorted meticulously for absolute sizing purity.">
+          <img src="assets/products/pistachios.png" alt="Roasted Salted Pistachios W-Biz Pune">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Salted Pistachios</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 6: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/products/figs.png" data-caption="Succulent sweet Turkish dried figs stacked elegantly on dark slate.">
+          <img src="assets/products/figs.png" alt="Turkish Dried Figs at W-Biz Dry Fruits store">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Turkish Figs</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 7: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/products/dates.png" data-caption="Luscious, sweet imported Medjool dates full of dietary iron and vitamin boosts.">
+          <img src="assets/products/dates.png" alt="Royal Medjool Dates near Mumbai Pune Expressway">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Medjool Dates</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 8: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/about-img.png" data-caption="Gourmet raw walnuts and dried fruits sorted on a smooth marble tray.">
+          <img src="assets/about-img.png" alt="Raw walnuts and almonds at W-Biz Dry Fruits Pune">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Raw Assortments</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+        <!-- Photo 9: Products -->
+        <div class="gallery-card gallery-item" data-category="products" data-src="assets/hero-bg.png" data-caption="Complete luxury dry fruit and nut platter showcase under warm studio lights.">
+          <img src="assets/hero-bg.png" alt="Complete dry fruit platter on wood table at W-Biz Wakad">
+          <div class="gallery-overlay">
+            <i class="fa-solid fa-maximize"></i>
+            <h3>Luxury Gourmet Platter</h3>
+            <p>Gourmet Products</p>
+          </div>
+        </div>
+
+      </div>
+    </div>
+  </section>
+
+  <!-- Fullscreen Lightbox Modal (JS Triggered) -->
+  <div class="lightbox" id="lightbox-modal">
+    <button class="lightbox-close" id="lightbox-close-btn" aria-label="Close gallery modal"><i class="fa-solid fa-xmark"></i></button>
+    <button class="lightbox-nav lightbox-prev" id="lightbox-prev-btn" aria-label="Previous gallery image"><i class="fa-solid fa-chevron-left"></i></button>
+    <button class="lightbox-nav lightbox-next" id="lightbox-next-btn" aria-label="Next gallery image"><i class="fa-solid fa-chevron-right"></i></button>
+    
+    <div class="lightbox-content">
+      <img src="assets/store-interior.png" alt="Lightbox Visual" class="lightbox-img" id="lightbox-active-img">
+      <div class="lightbox-caption" id="lightbox-active-caption">Store Interior Mock</div>
+    </div>
+  </div>
+
+  <!-- Luxury Footer -->
+  <footer>
+    <div class="container footer-top">
+      <div class="footer-col footer-about">
+        <div class="logo-link">
+          <img src="assets/logo.png" alt="W-Biz Dry Fruits Logo" class="logo-img">
+          <span class="logo-text">W-BIZ</span>
+        </div>
+        <p>Bringing luxurious, wholesome health from global farms to Wakad, Pune. Sourced with absolute purity, packed with hygiene, and styled for premium celebrations.</p>
+        <div class="top-socials" style="margin-top: 10px;">
+          <a href="https://instagram.com/wbizdryfruits" target="_blank" style="margin-left: 0; margin-right: 15px;"><i class="fa-brands fa-instagram fa-lg"></i></a>
+          <a href="https://facebook.com/wbizdryfruits" target="_blank" style="margin-right: 15px;"><i class="fa-brands fa-facebook-f fa-lg"></i></a>
+        </div>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Quick Links</h3>
+        <ul class="footer-links-list">
+          <li><a href="index.html">Home</a></li>
+          <li><a href="about.html">About Us</a></li>
+          <li><a href="products.html">Products</a></li>
+          <li><a href="gallery.html">Gallery</a></li>
+          <li><a href="contact.html">Contact Us</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col">
+        <h3>Categories</h3>
+        <ul class="footer-links-list">
+          <li><a href="products.html?category=almonds">California Almonds</a></li>
+          <li><a href="products.html?category=cashews">Jumbo Cashews</a></li>
+          <li><a href="products.html?category=pistachios">Salted Pistachios</a></li>
+          <li><a href="products.html?category=figs">Turkish Figs</a></li>
+          <li><a href="products.html?category=gift-boxes">Festive Gift Boxes</a></li>
+        </ul>
+      </div>
+      
+      <div class="footer-col footer-newsletter">
+        <h3>Newsletter</h3>
+        <p>Subscribe to receive custom premium recipes, festive discounts, and quality organic dry fruit alerts directly.</p>
+        <form class="newsletter-form" id="footer-newsletter-form">
+          <input type="email" placeholder="Your Email Address" class="newsletter-input" required aria-label="Email for newsletter subscription">
+          <button type="submit" class="newsletter-btn" aria-label="Subscribe to newsletter"><i class="fa-solid fa-paper-plane"></i></button>
+        </form>
+      </div>
+    </div>
+    
+    <div class="container footer-bottom">
+      <p>&copy; 2026 W-Biz Dry Fruits. All Rights Reserved. Sourced Globally, Served Purely.</p>
+      <div class="footer-bottom-links">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Terms of Service</a>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Floating WhatsApp Widget Button -->
+  <a href="https://wa.me/919999999999?text=Hi%20W-Biz%20Dry%20Fruits,%20I'm%20viewing%20your%20photo%20gallery%20and%20would%20like%20to%20learn%20more." class="whatsapp-float" target="_blank" aria-label="Chat with W-Biz Dry Fruits on WhatsApp">
+    <i class="fa-brands fa-whatsapp"></i>
+  </a>
+
+  <!-- Global Custom Javascript Sheet -->
+  <script src="js/main.js"></script>
+</body>
+</html>
