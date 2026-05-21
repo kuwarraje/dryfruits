@@ -10,11 +10,11 @@
 // publish each sheet as a CSV file from "File -> Share -> Publish to Web", and paste the links here.
 const GOOGLE_SHEETS = {
   // You can replace these placeholder/sample links with your actual published CSV URLs
-  PRODUCTS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=1623504527&single=true&output=csv",
-  OFFERS: "",
-  REVIEWS: "",
-  FAQS: "",
-  GALLERY: ""
+  PRODUCTS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=1955906434&single=true&output=csv",
+  OFFERS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=195318192&single=true&output=csv",
+  REVIEWS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=485387352&single=true&output=csv",
+  FAQS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=886172217&single=true&output=csv",
+  GALLERY: "https://docs.google.com/spreadsheets/d/e/2PACX-1vTGNNEkrYY6-0MsPHqtLgzkQwf91lHSiNPzwvJrby1TSzuqd_rwxo9P5T_LSlxshKQhEmhzKgqK2NlZ/pub?gid=2128225883&single=true&output=csv"
 };
 
 // 2. High-Performance Premium Offline Fallback Database
@@ -350,8 +350,30 @@ function parseCSVToJSON(csvText) {
       else if (val === "" || val === "null" || val === "NaN") val = null;
       else if (!isNaN(val) && val !== "") val = Number(val);
       
+      // Robust Image path/URL normalization (remove quotes, normalize slashes, strip leading slashes)
+      if (headers[j] === "image" && typeof val === "string") {
+        val = val.trim().replace(/^['"`]|['"`]$/g, '').replace(/\\/g, '/').replace(/^\/+/g, '');
+      }
+      
       obj[headers[j]] = val;
+
+      // Dynamic header mapping to ensure full compatibility with templates and javascript properties
+      if (headers[j] === "offer_price") {
+        obj["price"] = val;
+      }
+      if (headers[j] === "content") {
+        obj["comment"] = val;
+      }
+      if (headers[j] === "location") {
+        obj["role"] = val;
+      }
     }
+
+    // Auto-generate a beautiful luxury WhatsApp text for Offers if not provided
+    if (obj.title && obj.price && !obj.whatsapp_text) {
+      obj.whatsapp_text = `Hi W-Biz Dry Fruits, I want to order the special offer: ${obj.title} at the offer price of ₹${obj.price.toLocaleString('en-IN')}.`;
+    }
+
     jsonResult.push(obj);
   }
 
