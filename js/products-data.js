@@ -10,7 +10,7 @@
 // publish each sheet as a CSV file from "File -> Share -> Publish to Web", and paste the links here.
 const GOOGLE_SHEETS = {
   // You can replace these placeholder/sample links with your actual published CSV URLs
-  PRODUCTS: "https://docs.google.com/spreadsheets/d/e/2PACX-1vT17dE0k0vR50l_jG34z7TkiNqR94iZ-4o7R20c5_hJ9Yp_D1407P4Q7u2s/pub?output=csv",
+  PRODUCTS: "",
   OFFERS: "",
   REVIEWS: "",
   FAQS: "",
