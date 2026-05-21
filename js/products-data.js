@@ -169,6 +169,15 @@ const defaultOffers = [
     price: 1999,
     original_price: 2400,
     whatsapp_text: "Hi W-Biz Dry Fruits, I'm interested in the Premium Utsav Gift Box."
+  },
+  {
+    id: "combo-4",
+    title: "Golden Dry Fruit Medley",
+    badge: "New Launch",
+    description: "A premium, limited-edition celebration box containing King-sized California Almonds (200g), Roasted Cashews (200g), and luscious Medjool Dates (200g). Perfect for testing.",
+    price: 999,
+    original_price: 1200,
+    whatsapp_text: "Hi W-Biz Dry Fruits, I want to order the new Golden Dry Fruit Medley test offer."
   }
 ];
 
