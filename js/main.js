@@ -88,39 +88,52 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 5. Dynamic Products Rendering & Google Sheets CMS Integration
+  // 5. Dynamic CMS Data Rendering & Integration
   // ==========================================
+
+  // helper: generate stars HTML for testimonials
+  function generateStarsHTML(rating) {
+    let starsHTML = '';
+    const fullStars = Math.floor(rating);
+    const hasHalf = rating % 1 !== 0;
+    for (let i = 0; i < fullStars; i++) {
+      starsHTML += '<i class="fa-solid fa-star"></i>';
+    }
+    if (hasHalf) {
+      starsHTML += '<i class="fa-solid fa-star-half-stroke"></i>';
+    }
+    const emptyStars = 5 - Math.ceil(rating);
+    for (let i = 0; i < emptyStars; i++) {
+      starsHTML += '<i class="fa-regular fa-star"></i>';
+    }
+    return starsHTML;
+  }
+
+  // 5a. Init Products catalog & featured slider
   async function initDynamicProducts() {
     const products = await loadProductsData();
     
-    // 5a. If on Products Catalog Page
+    // Catalog Grid (Products page)
     const catalogGrid = document.getElementById('products-catalog-grid');
     if (catalogGrid) {
-      catalogGrid.innerHTML = ''; // Clear static loading cards
-      
+      catalogGrid.innerHTML = '';
       products.forEach(product => {
         const cardHTML = generateCatalogCardHTML(product);
         catalogGrid.insertAdjacentHTML('beforeend', cardHTML);
       });
-      
-      // Re-initialize Category Filtering & Weight Selector listeners
       setupCategoryFiltering();
       setupWeightSelectors();
     }
     
-    // 5b. If on Home Page Featured Slider
+    // Featured Slider (Index page)
     const sliderContainer = document.getElementById('featured-products-container');
     if (sliderContainer) {
-      sliderContainer.innerHTML = ''; // Clear static loading cards
-      
+      sliderContainer.innerHTML = '';
       const featuredProducts = products.filter(p => p.is_featured === true || p.is_featured === "TRUE");
-      
       featuredProducts.forEach(product => {
         const cardHTML = generateSliderCardHTML(product);
         sliderContainer.insertAdjacentHTML('beforeend', cardHTML);
       });
-      
-      // Re-initialize slider buttons
       setupFeaturedSlider();
     }
   }
@@ -262,7 +275,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
   }
 
-  // 5c. Setup Horizontal Featured Slider listeners
+  // Setup Featured Slider
   function setupFeaturedSlider() {
     const sliderContainer = document.getElementById('featured-products-container');
     const slidePrev = document.getElementById('slide-prev');
@@ -278,7 +291,6 @@ document.addEventListener('DOMContentLoaded', () => {
       };
 
       if (slideNext) {
-        // Remove old event listener by replacing the button clone
         const nextClone = slideNext.cloneNode(true);
         slideNext.parentNode.replaceChild(nextClone, slideNext);
         nextClone.addEventListener('click', () => {
@@ -296,7 +308,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 5d. Setup Category Filtering (Products Page)
+  // Setup Category Filtering (Products page)
   function setupCategoryFiltering() {
     const productFilterTabs = document.getElementById('category-filter-tabs');
     const catalogGrid = document.getElementById('products-catalog-grid');
@@ -306,18 +318,15 @@ document.addEventListener('DOMContentLoaded', () => {
       const productItems = catalogGrid.querySelectorAll('.product-item');
 
       filterBtns.forEach(btn => {
-        // Clean old listeners
         const btnClone = btn.cloneNode(true);
         btn.parentNode.replaceChild(btnClone, btn);
         
         btnClone.addEventListener('click', () => {
-          // Toggle Active Button Class
           const currentFilterBtns = productFilterTabs.querySelectorAll('.filter-btn');
           currentFilterBtns.forEach(b => b.classList.remove('active'));
           btnClone.classList.add('active');
 
           const filterVal = btnClone.getAttribute('data-filter');
-
           catalogGrid.style.opacity = '0';
           
           setTimeout(() => {
@@ -334,7 +343,6 @@ document.addEventListener('DOMContentLoaded', () => {
         });
       });
 
-      // Check URL parameters for custom landing category filters (e.g. index links)
       const urlParams = new URLSearchParams(window.location.search);
       const catParam = urlParams.get('category');
       if (catParam) {
@@ -346,7 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // 5e. Setup Weight & Price Recalculation + WhatsApp Link
+  // Setup Weight Dropdowns
   function setupWeightSelectors() {
     const weightSelectors = document.querySelectorAll('.weight-selector');
     
@@ -355,19 +363,16 @@ document.addEventListener('DOMContentLoaded', () => {
         selector.addEventListener('change', (e) => {
           const selectedOption = e.target.options[e.target.selectedIndex];
           const price = selectedOption.getAttribute('data-price');
-          const weightText = selectedOption.text.split(' - ')[0]; // E.g., '500g'
+          const weightText = selectedOption.text.split(' - ')[0];
           const productName = e.target.getAttribute('data-product');
 
-          // Locate target card parent element
           const card = e.target.closest('.product-card');
           if (card) {
-            // 1. Update visual price tag
             const priceValueTag = card.querySelector('.price-val');
             if (priceValueTag) {
               priceValueTag.textContent = parseFloat(price).toLocaleString('en-IN');
             }
 
-            // 2. Dynamically construct WhatsApp inquiry URL
             const whatsappBtn = card.querySelector('.whatsapp-inquiry-btn');
             if (whatsappBtn) {
               const rawText = `Hi W-Biz Dry Fruits, I am interested in inquiring about the ${productName} (${weightText}) priced at ₹${price}. Please provide shipping info.`;
@@ -380,126 +385,353 @@ document.addEventListener('DOMContentLoaded', () => {
     }
   }
 
-  // Kickstart dynamic loading system!
-  initDynamicProducts();
+  // 5b. Init Daily Offers
+  async function initDynamicOffers() {
+    const offersGrid = document.getElementById('offers-grid');
+    if (offersGrid) {
+      const offers = await loadOffersData();
+      offersGrid.innerHTML = '';
+      
+      offers.forEach(offer => {
+        const badgeHTML = offer.badge ? `<span class="offer-badge">${offer.badge}</span>` : '';
+        const cardHTML = `
+          <div class="offer-card">
+            ${badgeHTML}
+            <div class="offer-content">
+              <h3 class="offer-title">${offer.title}</h3>
+              <p class="offer-desc">${offer.description}</p>
+              <div class="offer-price">
+                ₹${parseFloat(offer.price).toLocaleString('en-IN')} 
+                <span>₹${parseFloat(offer.original_price).toLocaleString('en-IN')}</span>
+              </div>
+              <a href="https://wa.me/919999999999?text=${encodeURIComponent(offer.whatsapp_text)}" target="_blank" class="btn btn-gold text-center">
+                <i class="fa-brands fa-whatsapp"></i> Order on WhatsApp
+              </a>
+            </div>
+          </div>
+        `;
+        offersGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+    }
+  }
 
-  // ==========================================
-  // 9. Interactive Gallery Lightbox Modal
-  // ==========================================
-  const galleryFilterTabs = document.getElementById('gallery-filter-tabs');
-  const imageGrid = document.getElementById('gallery-image-grid');
-  const lightboxModal = document.getElementById('lightbox-modal');
+  // 5c. Init Customer Reviews Carousel
+  async function initDynamicReviews() {
+    const testimonialTrack = document.getElementById('testimonial-track');
+    const dotsContainer = document.getElementById('carousel-dots-container');
 
-  // Simple category filter for gallery first
-  if (galleryFilterTabs && imageGrid) {
-    const filterBtns = galleryFilterTabs.querySelectorAll('.filter-btn');
-    const galleryItems = imageGrid.querySelectorAll('.gallery-item');
+    if (testimonialTrack) {
+      const reviews = await loadReviewsData();
+      testimonialTrack.innerHTML = '';
+      if (dotsContainer) dotsContainer.innerHTML = '';
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+      reviews.forEach((review, index) => {
+        const slideHTML = `
+          <div class="testimonial-slide">
+            <div class="testimonial-quote">
+              "${review.comment}"
+            </div>
+            <div class="testimonial-author">
+              <div class="author-rating">
+                ${generateStarsHTML(review.rating)}
+              </div>
+              <span class="author-name">${review.name}</span>
+              <span class="author-title">${review.role}</span>
+            </div>
+          </div>
+        `;
+        testimonialTrack.insertAdjacentHTML('beforeend', slideHTML);
 
-        const filterVal = btn.getAttribute('data-filter');
-        imageGrid.style.opacity = '0';
+        if (dotsContainer) {
+          const dotHTML = `<button class="carousel-dot ${index === 0 ? 'active' : ''}" data-index="${index}" aria-label="Go to slide ${index + 1}"></button>`;
+          dotsContainer.insertAdjacentHTML('beforeend', dotHTML);
+        }
+      });
 
-        setTimeout(() => {
-          galleryItems.forEach(item => {
-            const category = item.getAttribute('data-category');
-            if (filterVal === 'all' || category === filterVal) {
-              item.style.display = 'block';
-            } else {
-              item.style.display = 'none';
-            }
-          });
-          imageGrid.style.opacity = '1';
-        }, 300);
+      setupTestimonialsCarousel();
+    }
+  }
+
+  // Testimonials sliding controller
+  function setupTestimonialsCarousel() {
+    const track = document.getElementById('testimonial-track');
+    const dotsContainer = document.getElementById('carousel-dots-container');
+    if (!track) return;
+
+    const slides = track.querySelectorAll('.testimonial-slide');
+    if (slides.length === 0) return;
+
+    let activeIndex = 0;
+    let autoPlayInterval = null;
+
+    const goToSlide = (index) => {
+      activeIndex = index;
+      track.style.transform = `translateX(-${index * 100}%)`;
+
+      if (dotsContainer) {
+        const dots = dotsContainer.querySelectorAll('.carousel-dot');
+        dots.forEach((dot, dIdx) => {
+          if (dIdx === index) dot.classList.add('active');
+          else dot.classList.remove('active');
+        });
+      }
+    };
+
+    const nextSlide = () => {
+      let nextIdx = activeIndex + 1;
+      if (nextIdx >= slides.length) nextIdx = 0;
+      goToSlide(nextIdx);
+    };
+
+    const startAutoPlay = () => {
+      stopAutoPlay();
+      autoPlayInterval = setInterval(nextSlide, 6000);
+    };
+
+    const stopAutoPlay = () => {
+      if (autoPlayInterval) clearInterval(autoPlayInterval);
+    };
+
+    if (dotsContainer) {
+      dotsContainer.addEventListener('click', (e) => {
+        const dot = e.target.closest('.carousel-dot');
+        if (dot) {
+          const index = parseInt(dot.getAttribute('data-index'));
+          goToSlide(index);
+          startAutoPlay();
+        }
+      });
+    }
+
+    startAutoPlay();
+  }
+
+  // 5d. Init FAQs Accordion
+  async function initDynamicFAQs() {
+    const faqContainer = document.getElementById('faq-container');
+    if (faqContainer) {
+      const faqs = await loadFAQData();
+      faqContainer.innerHTML = '';
+
+      faqs.forEach(faq => {
+        const itemHTML = `
+          <div class="faq-item">
+            <button class="faq-question">
+              <h3>${faq.question}</h3>
+              <span class="faq-icon"><i class="fa-solid fa-chevron-down"></i></span>
+            </button>
+            <div class="faq-answer">
+              <div class="faq-answer-content">
+                ${faq.answer}
+              </div>
+            </div>
+          </div>
+        `;
+        faqContainer.insertAdjacentHTML('beforeend', itemHTML);
+      });
+
+      setupFAQAccordion();
+    }
+  }
+
+  // FAQ Expand Collapser
+  function setupFAQAccordion() {
+    const faqItems = document.querySelectorAll('.faq-item');
+    faqItems.forEach(item => {
+      const questionBtn = item.querySelector('.faq-question');
+      const answerBlock = item.querySelector('.faq-answer');
+
+      questionBtn.addEventListener('click', () => {
+        const isActive = item.classList.contains('active');
+        
+        faqItems.forEach(i => {
+          i.classList.remove('active');
+          i.querySelector('.faq-answer').style.maxHeight = '0';
+        });
+
+        if (!isActive) {
+          item.classList.add('active');
+          answerBlock.style.maxHeight = answerBlock.scrollHeight + 'px';
+        }
       });
     });
   }
 
-  // Lightbox slider mechanics
-  if (lightboxModal && imageGrid) {
-    const closeBtn = document.getElementById('lightbox-close-btn');
-    const prevBtn = document.getElementById('lightbox-prev-btn');
-    const nextBtn = document.getElementById('lightbox-next-btn');
-    const activeImg = document.getElementById('lightbox-active-img');
-    const activeCaption = document.getElementById('lightbox-active-caption');
-    
-    // Get only visible gallery items for index reference
-    const getVisibleItems = () => {
-      return Array.from(imageGrid.querySelectorAll('.gallery-item')).filter(item => item.style.display !== 'none');
-    };
+  // 5e. Init Gallery
+  async function initDynamicGallery() {
+    const galleryGrid = document.getElementById('gallery-image-grid');
+    if (galleryGrid) {
+      const galleryItems = await loadGalleryData();
+      galleryGrid.innerHTML = '';
 
-    let activeIndex = 0;
+      galleryItems.forEach(item => {
+        const cardHTML = `
+          <div class="gallery-card gallery-item" data-category="${item.category}" data-src="${item.image}" data-caption="${item.caption}">
+            <img src="${item.image}" alt="${item.caption}">
+            <div class="gallery-overlay">
+              <i class="fa-solid fa-maximize"></i>
+              <h3>${item.title}</h3>
+              <p>${item.subtitle}</p>
+            </div>
+          </div>
+        `;
+        galleryGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
 
-    const openLightbox = (index) => {
-      const visibleItems = getVisibleItems();
-      if (index < 0 || index >= visibleItems.length) return;
-      
-      activeIndex = index;
-      const targetCard = visibleItems[index];
-      const src = targetCard.getAttribute('data-src');
-      const caption = targetCard.getAttribute('data-caption');
-
-      activeImg.src = src;
-      activeCaption.textContent = caption;
-
-      lightboxModal.classList.add('active');
-      document.body.style.overflow = 'hidden'; // Stop background scrolling
-    };
-
-    const closeLightbox = () => {
-      lightboxModal.classList.remove('active');
-      document.body.style.overflow = '';
-    };
-
-    const nextImage = () => {
-      const visibleItems = getVisibleItems();
-      let nextIndex = activeIndex + 1;
-      if (nextIndex >= visibleItems.length) nextIndex = 0;
-      openLightbox(nextIndex);
-    };
-
-    const prevImage = () => {
-      const visibleItems = getVisibleItems();
-      let prevIndex = activeIndex - 1;
-      if (prevIndex < 0) prevIndex = visibleItems.length - 1;
-      openLightbox(prevIndex);
-    };
-
-    // Click trigger on cards
-    imageGrid.addEventListener('click', (e) => {
-      const card = e.target.closest('.gallery-card');
-      if (card) {
-        const visibleItems = getVisibleItems();
-        const cardIndex = visibleItems.indexOf(card);
-        if (cardIndex !== -1) {
-          openLightbox(cardIndex);
-        }
-      }
-    });
-
-    // Control binds
-    if (closeBtn) closeBtn.addEventListener('click', closeLightbox);
-    if (nextBtn) nextBtn.addEventListener('click', nextImage);
-    if (prevBtn) prevBtn.addEventListener('click', prevImage);
-
-    // Close on clicking modal backdrop
-    lightboxModal.addEventListener('click', (e) => {
-      if (e.target === lightboxModal) {
-        closeLightbox();
-      }
-    });
-
-    // Keyboard navigation binding
-    document.addEventListener('keydown', (e) => {
-      if (!lightboxModal.classList.contains('active')) return;
-      if (e.key === 'Escape') closeLightbox();
-      if (e.key === 'ArrowRight') nextImage();
-      if (e.key === 'ArrowLeft') prevImage();
-    });
+      setupGalleryFiltering();
+      setupGalleryLightbox();
+    }
   }
+
+  // Gallery Categories filter
+  function setupGalleryFiltering() {
+    const galleryFilterTabs = document.getElementById('gallery-filter-tabs');
+    const imageGrid = document.getElementById('gallery-image-grid');
+
+    if (galleryFilterTabs && imageGrid) {
+      const filterBtns = galleryFilterTabs.querySelectorAll('.filter-btn');
+      const galleryItems = imageGrid.querySelectorAll('.gallery-item');
+
+      filterBtns.forEach(btn => {
+        const btnClone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(btnClone, btn);
+
+        btnClone.addEventListener('click', () => {
+          const currentBtns = galleryFilterTabs.querySelectorAll('.filter-btn');
+          currentBtns.forEach(b => b.classList.remove('active'));
+          btnClone.classList.add('active');
+
+          const filterVal = btnClone.getAttribute('data-filter');
+          imageGrid.style.opacity = '0';
+
+          setTimeout(() => {
+            galleryItems.forEach(item => {
+              const category = item.getAttribute('data-category');
+              if (filterVal === 'all' || category === filterVal) {
+                item.style.display = 'block';
+              } else {
+                item.style.display = 'none';
+              }
+            });
+            imageGrid.style.opacity = '1';
+          }, 300);
+        });
+      });
+    }
+  }
+
+  // Lightbox slider mechanics
+  function setupGalleryLightbox() {
+    const lightboxModal = document.getElementById('lightbox-modal');
+    const imageGrid = document.getElementById('gallery-image-grid');
+
+    if (lightboxModal && imageGrid) {
+      const closeBtn = document.getElementById('lightbox-close-btn');
+      const prevBtn = document.getElementById('lightbox-prev-btn');
+      const nextBtn = document.getElementById('lightbox-next-btn');
+      const activeImg = document.getElementById('lightbox-active-img');
+      const activeCaption = document.getElementById('lightbox-active-caption');
+      
+      const getVisibleItems = () => {
+        return Array.from(imageGrid.querySelectorAll('.gallery-item')).filter(item => item.style.display !== 'none');
+      };
+
+      let activeIndex = 0;
+
+      const openLightbox = (index) => {
+        const visibleItems = getVisibleItems();
+        if (index < 0 || index >= visibleItems.length) return;
+        
+        activeIndex = index;
+        const targetCard = visibleItems[index];
+        const src = targetCard.getAttribute('data-src');
+        const caption = targetCard.getAttribute('data-caption');
+
+        activeImg.src = src;
+        activeCaption.textContent = caption;
+
+        lightboxModal.classList.add('active');
+        document.body.style.overflow = 'hidden';
+      };
+
+      const closeLightbox = () => {
+        lightboxModal.classList.remove('active');
+        document.body.style.overflow = '';
+      };
+
+      const nextImage = () => {
+        const visibleItems = getVisibleItems();
+        let nextIndex = activeIndex + 1;
+        if (nextIndex >= visibleItems.length) nextIndex = 0;
+        openLightbox(nextIndex);
+      };
+
+      const prevImage = () => {
+        const visibleItems = getVisibleItems();
+        let prevIndex = activeIndex - 1;
+        if (prevIndex < 0) prevIndex = visibleItems.length - 1;
+        openLightbox(prevIndex);
+      };
+
+      // Click trigger on cards
+      imageGrid.addEventListener('click', (e) => {
+        const card = e.target.closest('.gallery-card');
+        if (card) {
+          const visibleItems = getVisibleItems();
+          const cardIndex = visibleItems.indexOf(card);
+          if (cardIndex !== -1) {
+            openLightbox(cardIndex);
+          }
+        }
+      });
+
+      // Bind controls
+      if (closeBtn) {
+        const closeClone = closeBtn.cloneNode(true);
+        closeBtn.parentNode.replaceChild(closeClone, closeBtn);
+        closeClone.addEventListener('click', closeLightbox);
+      }
+      if (nextBtn) {
+        const nextClone = nextBtn.cloneNode(true);
+        nextBtn.parentNode.replaceChild(nextClone, nextBtn);
+        nextClone.addEventListener('click', nextImage);
+      }
+      if (prevBtn) {
+        const prevClone = prevBtn.cloneNode(true);
+        prevBtn.parentNode.replaceChild(prevClone, prevBtn);
+        prevClone.addEventListener('click', prevImage);
+      }
+
+      // Close on clicking modal backdrop
+      const modalClone = lightboxModal.cloneNode(true);
+      lightboxModal.parentNode.replaceChild(modalClone, lightboxModal);
+      modalClone.addEventListener('click', (e) => {
+        if (e.target === modalClone) {
+          closeLightbox();
+        }
+      });
+
+      // Keyboard navigation binding
+      document.addEventListener('keydown', (e) => {
+        if (!modalClone.classList.contains('active')) return;
+        if (e.key === 'Escape') closeLightbox();
+        if (e.key === 'ArrowRight') nextImage();
+        if (e.key === 'ArrowLeft') prevImage();
+      });
+    }
+  }
+
+  // Dynamic initialization coordinator
+  async function initDynamicCMS() {
+    await initDynamicProducts();
+    await initDynamicOffers();
+    await initDynamicReviews();
+    await initDynamicFAQs();
+    await initDynamicGallery();
+  }
+
+  // Kickstart dynamic system
+  initDynamicCMS();
 
   // ==========================================
   // 10. FAQ Accordions (Home Page)
