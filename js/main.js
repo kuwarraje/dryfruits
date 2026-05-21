@@ -88,202 +88,300 @@ document.addEventListener('DOMContentLoaded', () => {
   }
 
   // ==========================================
-  // 5. Featured Products Horizontal Slider (Home Page)
+  // 5. Dynamic Products Rendering & Google Sheets CMS Integration
   // ==========================================
-  const sliderContainer = document.getElementById('featured-products-container');
-  const slidePrev = document.getElementById('slide-prev');
-  const slideNext = document.getElementById('slide-next');
-
-  if (sliderContainer) {
-    const getScrollVal = () => {
-      const card = sliderContainer.querySelector('.product-card');
-      if (card) {
-        return card.clientWidth + 30; // Card width + gap
-      }
-      return 320;
-    };
-
-    if (slideNext) {
-      slideNext.addEventListener('click', () => {
-        sliderContainer.scrollBy({ left: getScrollVal(), behavior: 'smooth' });
-      });
-    }
-
-    if (slidePrev) {
-      slidePrev.addEventListener('click', () => {
-        sliderContainer.scrollBy({ left: -getScrollVal(), behavior: 'smooth' });
-      });
-    }
-  }
-
-  // ==========================================
-  // 6. Testimonial Carousel Auto-Scroll & Dots
-  // ==========================================
-  const testimonialTrack = document.getElementById('testimonial-track');
-  const dotsContainer = document.getElementById('carousel-dots-container');
-
-  if (testimonialTrack) {
-    const slides = testimonialTrack.querySelectorAll('.testimonial-slide');
-    let currentSlideIndex = 0;
-    let autoPlayInterval;
-
-    // Create dot indicators
-    slides.forEach((_, index) => {
-      const dot = document.createElement('button');
-      dot.classList.add('carousel-dot');
-      if (index === 0) dot.classList.add('active');
-      dot.setAttribute('aria-label', `Go to slide ${index + 1}`);
-      dot.addEventListener('click', () => {
-        goToSlide(index);
-        resetAutoPlay();
-      });
-      dotsContainer.appendChild(dot);
-    });
-
-    const dots = dotsContainer.querySelectorAll('.carousel-dot');
-
-    const goToSlide = (index) => {
-      currentSlideIndex = index;
-      testimonialTrack.style.transform = `translateX(-${index * 100}%)`;
-      
-      // Update dots status
-      dots.forEach((dot, dotIdx) => {
-        if (dotIdx === index) {
-          dot.classList.add('active');
-        } else {
-          dot.classList.remove('active');
-        }
-      });
-    };
-
-    const nextSlide = () => {
-      let nextIdx = currentSlideIndex + 1;
-      if (nextIdx >= slides.length) nextIdx = 0;
-      goToSlide(nextIdx);
-    };
-
-    const startAutoPlay = () => {
-      autoPlayInterval = setInterval(nextSlide, 6000); // Shift every 6s
-    };
-
-    const resetAutoPlay = () => {
-      clearInterval(autoPlayInterval);
-      startAutoPlay();
-    };
-
-    // Initialize Auto-play
-    startAutoPlay();
-
-    // Touch Swipe Support for Testimonial Carousel
-    let startX = 0;
-    let endX = 0;
+  async function initDynamicProducts() {
+    const products = await loadProductsData();
     
-    testimonialTrack.addEventListener('touchstart', (e) => {
-      startX = e.touches[0].clientX;
-    });
-
-    testimonialTrack.addEventListener('touchend', (e) => {
-      endX = e.changedTouches[0].clientX;
-      const swipeDistance = endX - startX;
+    // 5a. If on Products Catalog Page
+    const catalogGrid = document.getElementById('products-catalog-grid');
+    if (catalogGrid) {
+      catalogGrid.innerHTML = ''; // Clear static loading cards
       
-      if (Math.abs(swipeDistance) > 50) { // Threshold
-        if (swipeDistance < 0) {
-          // Swipe Left -> Next
-          let nextIdx = currentSlideIndex + 1;
-          if (nextIdx < slides.length) {
-            goToSlide(nextIdx);
-            resetAutoPlay();
-          }
-        } else {
-          // Swipe Right -> Prev
-          let prevIdx = currentSlideIndex - 1;
-          if (prevIdx >= 0) {
-            goToSlide(prevIdx);
-            resetAutoPlay();
-          }
-        }
-      }
-    });
+      products.forEach(product => {
+        const cardHTML = generateCatalogCardHTML(product);
+        catalogGrid.insertAdjacentHTML('beforeend', cardHTML);
+      });
+      
+      // Re-initialize Category Filtering & Weight Selector listeners
+      setupCategoryFiltering();
+      setupWeightSelectors();
+    }
+    
+    // 5b. If on Home Page Featured Slider
+    const sliderContainer = document.getElementById('featured-products-container');
+    if (sliderContainer) {
+      sliderContainer.innerHTML = ''; // Clear static loading cards
+      
+      const featuredProducts = products.filter(p => p.is_featured === true || p.is_featured === "TRUE");
+      
+      featuredProducts.forEach(product => {
+        const cardHTML = generateSliderCardHTML(product);
+        sliderContainer.insertAdjacentHTML('beforeend', cardHTML);
+      });
+      
+      // Re-initialize slider buttons
+      setupFeaturedSlider();
+    }
   }
 
-  // ==========================================
-  // 7. Dynamic Category Filtering (Products Page)
-  // ==========================================
-  const productFilterTabs = document.getElementById('category-filter-tabs');
-  const catalogGrid = document.getElementById('products-catalog-grid');
+  // Generate Catalog Card HTML
+  function generateCatalogCardHTML(product) {
+    const isOutOfStock = product.out_of_stock === true || product.out_of_stock === "TRUE";
+    const badgeHTML = product.badge ? `<span class="product-badge">${product.badge}</span>` : '';
+    const soldOutBadgeHTML = isOutOfStock 
+      ? `<span class="product-badge out-of-stock-badge" style="background-color: #8b0000; color: #fff;">Sold Out</span>` 
+      : badgeHTML;
+    
+    let optionsHTML = '';
+    let initialPrice = 0;
+    let initialWeightText = '';
+    
+    if (product.price_250g) {
+      optionsHTML += `<option value="250g" data-price="${product.price_250g}" selected>250g - ₹${product.price_250g}</option>`;
+      if (initialPrice === 0) {
+        initialPrice = product.price_250g;
+        initialWeightText = '250g';
+      }
+    }
+    if (product.price_500g) {
+      optionsHTML += `<option value="500g" data-price="${product.price_500g}">500g - ₹${product.price_500g}</option>`;
+      if (initialPrice === 0) {
+        initialPrice = product.price_500g;
+        initialWeightText = '500g';
+      }
+    }
+    if (product.price_1kg) {
+      optionsHTML += `<option value="1kg" data-price="${product.price_1kg}">1kg - ₹${product.price_1kg.toLocaleString('en-IN')}</option>`;
+      if (initialPrice === 0) {
+        initialPrice = product.price_1kg;
+        initialWeightText = '1kg';
+      }
+    }
+    
+    const selectHTML = isOutOfStock 
+      ? `<select class="weight-selector" disabled style="opacity: 0.6; pointer-events: none;"><option>Out of Stock</option></select>` 
+      : `<select class="weight-selector" id="weight-select-${product.id}" data-product="${product.name}">
+          ${optionsHTML}
+         </select>`;
 
-  if (productFilterTabs && catalogGrid) {
-    const filterBtns = productFilterTabs.querySelectorAll('.filter-btn');
-    const productItems = catalogGrid.querySelectorAll('.product-item');
+    const initialWhatsAppText = encodeURIComponent(`Hi W-Biz Dry Fruits, I am interested in inquiring about ${product.name} (${initialWeightText}) priced at ₹${initialPrice}. Please provide shipping info.`);
+    
+    const actionHTML = isOutOfStock
+      ? `<button class="btn btn-whatsapp text-center" disabled style="background: #555; border-color: #555; cursor: not-allowed; pointer-events: none; opacity: 0.7;">
+          <i class="fa-solid fa-ban"></i> Temporarily Out of Stock
+         </button>`
+      : `<a href="https://wa.me/919999999999?text=${initialWhatsAppText}" target="_blank" class="btn btn-whatsapp text-center whatsapp-inquiry-btn">
+          <i class="fa-brands fa-whatsapp"></i> Inquiry on WhatsApp
+         </a>`;
 
-    filterBtns.forEach(btn => {
-      btn.addEventListener('click', () => {
-        // Toggle Active Button Class
-        filterBtns.forEach(b => b.classList.remove('active'));
-        btn.classList.add('active');
+    return `
+      <div class="product-card product-item" data-category="${product.category}" style="${isOutOfStock ? 'opacity: 0.85;' : ''}">
+        <div class="product-img-wrap">
+          ${soldOutBadgeHTML}
+          <img src="${product.image}" alt="${product.name} W-Biz Wakad Pune">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">${product.name}</h3>
+          <p class="product-desc">${product.description}</p>
+          
+          <label for="weight-select-${product.id}" style="display:none">Select Weight</label>
+          ${selectHTML}
+          
+          <div class="product-price-row">
+            <span class="product-price">₹<span class="price-val">${initialPrice.toLocaleString('en-IN')}</span></span>
+          </div>
+          
+          <div class="product-actions">
+            ${actionHTML}
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-        const filterVal = btn.getAttribute('data-filter');
+  // Generate Slider Card HTML
+  function generateSliderCardHTML(product) {
+    const isOutOfStock = product.out_of_stock === true || product.out_of_stock === "TRUE";
+    const badgeHTML = product.badge ? `<span class="product-badge">${product.badge}</span>` : '';
+    const soldOutBadgeHTML = isOutOfStock 
+      ? `<span class="product-badge out-of-stock-badge" style="background-color: #8b0000; color: #fff;">Sold Out</span>` 
+      : badgeHTML;
+    
+    let priceRange = "";
+    let weightRange = "";
+    
+    const prices = [];
+    const weights = [];
+    if (product.price_250g) {
+      prices.push(product.price_250g);
+      weights.push("250g");
+    }
+    if (product.price_500g) {
+      prices.push(product.price_500g);
+      weights.push("500g");
+    }
+    if (product.price_1kg) {
+      prices.push(product.price_1kg);
+      weights.push("1kg");
+    }
+    
+    if (prices.length === 1) {
+      priceRange = `₹${prices[0].toLocaleString('en-IN')}`;
+      weightRange = weights[0];
+    } else if (prices.length > 1) {
+      const minPrice = Math.min(...prices);
+      const maxPrice = Math.max(...prices);
+      priceRange = `₹${minPrice} - ₹${maxPrice.toLocaleString('en-IN')}`;
+      weightRange = `${weights[0]} - ${weights[weights.length - 1]}`;
+    } else {
+      priceRange = "Call for Price";
+      weightRange = "Custom";
+    }
 
-        catalogGrid.style.opacity = '0';
-        
-        setTimeout(() => {
-          productItems.forEach(item => {
-            const category = item.getAttribute('data-category');
-            if (filterVal === 'all' || category === filterVal) {
-              item.style.display = 'block';
-            } else {
-              item.style.display = 'none';
-            }
-          });
-          catalogGrid.style.opacity = '1';
-        }, 300);
-      });
-    });
+    return `
+      <div class="product-card" style="${isOutOfStock ? 'opacity: 0.85;' : ''}">
+        <div class="product-img-wrap">
+          ${soldOutBadgeHTML}
+          <img src="${product.image}" alt="${product.name} at W-Biz Dry Fruits in Pune">
+        </div>
+        <div class="product-info">
+          <h3 class="product-title">${product.name}</h3>
+          <p class="product-desc">${product.description}</p>
+          <div class="product-price-row">
+            <span class="product-price">${priceRange}</span>
+            <span class="product-weight">${weightRange}</span>
+          </div>
+          <div class="product-actions">
+            <a href="products.html?category=${product.category}" class="btn btn-dark text-center">
+              ${isOutOfStock ? 'Sold Out - View Info' : 'View Options'}
+            </a>
+          </div>
+        </div>
+      </div>
+    `;
+  }
 
-    // Check URL parameters for custom landing category filters (e.g. index links)
-    const urlParams = new URLSearchParams(window.location.search);
-    const catParam = urlParams.get('category');
-    if (catParam) {
-      const matchingBtn = productFilterTabs.querySelector(`.filter-btn[data-filter="${catParam}"]`);
-      if (matchingBtn) {
-        setTimeout(() => matchingBtn.click(), 100);
+  // 5c. Setup Horizontal Featured Slider listeners
+  function setupFeaturedSlider() {
+    const sliderContainer = document.getElementById('featured-products-container');
+    const slidePrev = document.getElementById('slide-prev');
+    const slideNext = document.getElementById('slide-next');
+
+    if (sliderContainer) {
+      const getScrollVal = () => {
+        const card = sliderContainer.querySelector('.product-card');
+        if (card) {
+          return card.clientWidth + 30; // Card width + gap
+        }
+        return 320;
+      };
+
+      if (slideNext) {
+        // Remove old event listener by replacing the button clone
+        const nextClone = slideNext.cloneNode(true);
+        slideNext.parentNode.replaceChild(nextClone, slideNext);
+        nextClone.addEventListener('click', () => {
+          sliderContainer.scrollBy({ left: getScrollVal(), behavior: 'smooth' });
+        });
+      }
+
+      if (slidePrev) {
+        const prevClone = slidePrev.cloneNode(true);
+        slidePrev.parentNode.replaceChild(prevClone, slidePrev);
+        prevClone.addEventListener('click', () => {
+          sliderContainer.scrollBy({ left: -getScrollVal(), behavior: 'smooth' });
+        });
       }
     }
   }
 
-  // ==========================================
-  // 8. Dynamic Weight & Price Recalculation + WhatsApp Link
-  // ==========================================
-  const weightSelectors = document.querySelectorAll('.weight-selector');
-  
-  if (weightSelectors.length > 0) {
-    weightSelectors.forEach(selector => {
-      selector.addEventListener('change', (e) => {
-        const selectedOption = e.target.options[e.target.selectedIndex];
-        const price = selectedOption.getAttribute('data-price');
-        const weightText = selectedOption.text.split(' - ')[0]; // E.g., '500g'
-        const productName = e.target.getAttribute('data-product');
+  // 5d. Setup Category Filtering (Products Page)
+  function setupCategoryFiltering() {
+    const productFilterTabs = document.getElementById('category-filter-tabs');
+    const catalogGrid = document.getElementById('products-catalog-grid');
 
-        // Locate target card parent element
-        const card = e.target.closest('.product-card');
-        if (card) {
-          // 1. Update visual price tag
-          const priceValueTag = card.querySelector('.price-val');
-          if (priceValueTag) {
-            priceValueTag.textContent = parseFloat(price).toLocaleString('en-IN');
-          }
+    if (productFilterTabs && catalogGrid) {
+      const filterBtns = productFilterTabs.querySelectorAll('.filter-btn');
+      const productItems = catalogGrid.querySelectorAll('.product-item');
 
-          // 2. Dynamically construct WhatsApp inquiry URL
-          const whatsappBtn = card.querySelector('.whatsapp-inquiry-btn');
-          if (whatsappBtn) {
-            const rawText = `Hi W-Biz Dry Fruits, I am interested in inquiring about the ${productName} (${weightText}) priced at ₹${price}. Please provide shipping info.`;
-            const encodedText = encodeURIComponent(rawText);
-            whatsappBtn.href = `https://wa.me/919999999999?text=${encodedText}`;
-          }
-        }
+      filterBtns.forEach(btn => {
+        // Clean old listeners
+        const btnClone = btn.cloneNode(true);
+        btn.parentNode.replaceChild(btnClone, btn);
+        
+        btnClone.addEventListener('click', () => {
+          // Toggle Active Button Class
+          const currentFilterBtns = productFilterTabs.querySelectorAll('.filter-btn');
+          currentFilterBtns.forEach(b => b.classList.remove('active'));
+          btnClone.classList.add('active');
+
+          const filterVal = btnClone.getAttribute('data-filter');
+
+          catalogGrid.style.opacity = '0';
+          
+          setTimeout(() => {
+            productItems.forEach(item => {
+              const category = item.getAttribute('data-category');
+              if (filterVal === 'all' || category === filterVal) {
+                item.style.display = 'block';
+              } else {
+                item.style.display = 'none';
+              }
+            });
+            catalogGrid.style.opacity = '1';
+          }, 300);
+        });
       });
-    });
+
+      // Check URL parameters for custom landing category filters (e.g. index links)
+      const urlParams = new URLSearchParams(window.location.search);
+      const catParam = urlParams.get('category');
+      if (catParam) {
+        const matchingBtn = productFilterTabs.querySelector(`.filter-btn[data-filter="${catParam}"]`);
+        if (matchingBtn) {
+          setTimeout(() => matchingBtn.click(), 100);
+        }
+      }
+    }
   }
+
+  // 5e. Setup Weight & Price Recalculation + WhatsApp Link
+  function setupWeightSelectors() {
+    const weightSelectors = document.querySelectorAll('.weight-selector');
+    
+    if (weightSelectors.length > 0) {
+      weightSelectors.forEach(selector => {
+        selector.addEventListener('change', (e) => {
+          const selectedOption = e.target.options[e.target.selectedIndex];
+          const price = selectedOption.getAttribute('data-price');
+          const weightText = selectedOption.text.split(' - ')[0]; // E.g., '500g'
+          const productName = e.target.getAttribute('data-product');
+
+          // Locate target card parent element
+          const card = e.target.closest('.product-card');
+          if (card) {
+            // 1. Update visual price tag
+            const priceValueTag = card.querySelector('.price-val');
+            if (priceValueTag) {
+              priceValueTag.textContent = parseFloat(price).toLocaleString('en-IN');
+            }
+
+            // 2. Dynamically construct WhatsApp inquiry URL
+            const whatsappBtn = card.querySelector('.whatsapp-inquiry-btn');
+            if (whatsappBtn) {
+              const rawText = `Hi W-Biz Dry Fruits, I am interested in inquiring about the ${productName} (${weightText}) priced at ₹${price}. Please provide shipping info.`;
+              const encodedText = encodeURIComponent(rawText);
+              whatsappBtn.href = `https://wa.me/919999999999?text=${encodedText}`;
+            }
+          }
+        });
+      });
+    }
+  }
+
+  // Kickstart dynamic loading system!
+  initDynamicProducts();
 
   // ==========================================
   // 9. Interactive Gallery Lightbox Modal
